@@ -1285,7 +1285,7 @@ async function handleClipObsidian(): Promise<void> {
 		}) as Property[];
 
 		const frontmatter = await generateFrontmatter(properties);
-		const fileContent = frontmatter + noteContentField.value;
+		// const fileContent = frontmatter + noteContentField.value;
 
 		// Save to Obsidian
 		const selectedVault = currentTemplate.vault || vaultDropdown.value;
@@ -1294,6 +1294,7 @@ async function handleClipObsidian(): Promise<void> {
 		const path = isDailyNote ? '' : pathField?.value || '';
 		// await saveToObsidian(fileContent, noteName, path, selectedVault, currentTemplate.behavior);
 		const config = await initBlinkoConfig();
+		const fileContent = '# ' + noteName + '\n\n' + noteContentField.value;
 		await saveToBlinko(fileContent, noteName, path, selectedVault, currentTemplate.behavior, config);
 		const tabInfo = await getCurrentTabInfo();
 		await incrementStat('addToObsidian', selectedVault, path, tabInfo.url, tabInfo.title);

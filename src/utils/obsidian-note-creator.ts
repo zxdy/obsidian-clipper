@@ -139,7 +139,7 @@ export async function loadBlinkoConfig(): Promise<BlinkoConfig> {
 	
 	// 默认配置
 	const defaultConfig: BlinkoConfig = {
-		apiUrl: 'http://192.168.50.118:1111//api/v1/note/upsert',
+		apiUrl: 'http://192.168.50.118:1111/api/v1/note/upsert',
 		apiToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsIm5hbWUiOiJBcmlvIiwic3ViIjoiMSIsImV4cCI6NDkwMzQ3ODM5OCwiaWF0IjoxNzQ5ODc4Mzk4fQ.njSNqRTlfrdKZNUJdo-8XfJ7fgv0mrdo5upQp2joO-w',
 		callbackUrl: 'http://192.168.50.118:46375/8euU4SHs6fYna5A54wJoL3',
 		thoughtLengthThreshold: 200
@@ -262,7 +262,6 @@ export async function saveToBlinko(
 
 	// 根据内容长度判断笔记类型 (0: 短笔记/thought, 1: 长笔记/note)
 	const noteType = fileContent.length < thoughtLengthThreshold ? 0 : 1;
-
 	// 构建请求数据
 	const data = {
 		content: fileContent,
