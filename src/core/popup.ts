@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Template, Property, PromptVariable } from '../types/types';
 import { incrementStat, addHistoryEntry, getClipHistory } from '../utils/storage-utils';
-import { generateFrontmatter, saveToObsidian } from '../utils/obsidian-note-creator';
+import { generateFrontmatter, initBlinkoConfig, saveToBlinko, saveToObsidian } from '../utils/obsidian-note-creator';
 import { extractPageContent, initializePageContent } from '../utils/content-extractor';
 import { compileTemplate } from '../utils/template-compiler';
 import { initializeIcons, getPropertyTypeIcon } from '../icons/icons';
@@ -1292,8 +1292,9 @@ async function handleClipObsidian(): Promise<void> {
 		const isDailyNote = currentTemplate.behavior === 'append-daily' || currentTemplate.behavior === 'prepend-daily';
 		const noteName = isDailyNote ? '' : noteNameField?.value || '';
 		const path = isDailyNote ? '' : pathField?.value || '';
-
-		await saveToObsidian(fileContent, noteName, path, selectedVault, currentTemplate.behavior);
+		// await saveToObsidian(fileContent, noteName, path, selectedVault, currentTemplate.behavior);
+		const config = await initBlinkoConfig();
+		await saveToBlinko(fileContent, noteName, path, selectedVault, currentTemplate.behavior, config);
 		const tabInfo = await getCurrentTabInfo();
 		await incrementStat('addToObsidian', selectedVault, path, tabInfo.url, tabInfo.title);
 
