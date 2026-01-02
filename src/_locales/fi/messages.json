@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Lisää Obsidianiin"
 	},
+	"addToBlinko": {
+		"message": "Lisää Blinkoon"
+	},
 	"addVaultPlaceholder": {
 		"message": "Paina enter lisätäksesi holvin"
 	},

@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "添加到 Obsidian"
 	},
+	"addToBlinko": {
+		"message": "添加到 Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "按回车键添加保管库"
 	},

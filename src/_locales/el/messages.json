@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Προσθήκη στο Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Προσθήκη στο Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Πατήστε Enter για προσθήκη θησαυροφυλακίου"
 	},

@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "به ابسیدین اضافه کنید"
 	},
+	"addToBlinko": {
+		"message": "به Blinko اضافه کنید"
+	},
 	"addVaultPlaceholder": {
 		"message": "برای افزودن به خزانه بر enter کلیک کنید"
 	},

@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Legg til i Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Legg til i Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Trykk Enter for å legge til hvelv"
 	},

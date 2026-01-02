@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Ajouter à Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Ajouter à Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Appuyez sur entrée pour ajouter un coffre"
 	},

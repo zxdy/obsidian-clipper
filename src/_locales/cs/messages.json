@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Přidat do Obsidianu"
 	},
+	"addToBlinko": {
+		"message": "Přidat do Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Stiskněte Enter pro přidání trezoru"
 	},

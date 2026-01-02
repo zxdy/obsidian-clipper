@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Додати в Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Додати в Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Натисніть Enter, щоб додати сховище"
 	},

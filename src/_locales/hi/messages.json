@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Obsidian me save karein"
 	},
+	"addToBlinko": {
+		"message": "Blinko me save karein"
+	},
 	"addVaultPlaceholder": {
 		"message": "Vault jodne ke liye enter dabaein"
 	},

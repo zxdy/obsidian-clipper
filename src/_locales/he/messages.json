@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "הוסף ל-Obsidian"
 	},
+	"addToBlinko": {
+		"message": "הוסף ל-Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "לחץ/י Enter להוספת כספת"
 	},

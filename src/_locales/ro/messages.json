@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Adaugă în Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Adaugă în Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Apasă Enter pentru a adăuga seiful"
 	},

@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "অবসিডিয়ানে যোগ করুন"
 	},
+	"addToBlinko": {
+		"message": "Blinko-তে যোগ করুন"
+	},
 	"addVaultPlaceholder": {
 		"message": "ভল্ট যোগ করতে এন্টার চাপুন"
 	},

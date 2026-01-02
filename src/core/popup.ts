@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Template, Property, PromptVariable } from '../types/types';
 import { incrementStat, addHistoryEntry, getClipHistory } from '../utils/storage-utils';
-import { generateFrontmatter, initBlinkoConfig, saveToBlinko, saveToObsidian } from '../utils/obsidian-note-creator';
+import { generateFrontmatter, generateFrontmatterForBlinko, generateTagsForBlinko, initBlinkoConfig, saveToBlinko, saveToObsidian } from '../utils/obsidian-note-creator';
 import { extractPageContent, initializePageContent } from '../utils/content-extractor';
 import { compileTemplate } from '../utils/template-compiler';
 import { initializeIcons, getPropertyTypeIcon } from '../icons/icons';
@@ -1231,6 +1231,7 @@ function determineMainAction() {
 			mainButton.onclick = () => copyContent();
 			// Add direct actions to secondary
 			addSecondaryAction(secondaryActions, 'addToObsidian', () => handleClipObsidian());
+			addSecondaryAction(secondaryActions, 'addToBlinko', () => handleClipBlinko());
 			addSecondaryAction(secondaryActions, 'saveFile', handleSaveToDownloads);
 			break;
 		case 'saveFile':
@@ -1238,12 +1239,22 @@ function determineMainAction() {
 			mainButton.onclick = () => handleSaveToDownloads();
 			// Add direct actions to secondary
 			addSecondaryAction(secondaryActions, 'addToObsidian', () => handleClipObsidian());
+			addSecondaryAction(secondaryActions, 'addToBlinko', () => handleClipBlinko());
 			addSecondaryAction(secondaryActions, 'copyToClipboard', copyContent);
+			break;
+		case 'addToBlinko':
+			mainButton.textContent = getMessage('addToBlinko');
+			mainButton.onclick = () => handleClipBlinko();
+			// Add direct actions to secondary
+			addSecondaryAction(secondaryActions, 'addToObsidian', () => handleClipObsidian());
+			addSecondaryAction(secondaryActions, 'copyToClipboard', copyContent);
+			addSecondaryAction(secondaryActions, 'saveFile', handleSaveToDownloads);
 			break;
 		default: // 'addToObsidian'
 			mainButton.textContent = getMessage('addToObsidian');
 			mainButton.onclick = () => handleClipObsidian();
 			// Add direct actions to secondary
+			addSecondaryAction(secondaryActions, 'addToBlinko', () => handleClipBlinko());
 			addSecondaryAction(secondaryActions, 'copyToClipboard', copyContent);
 			addSecondaryAction(secondaryActions, 'saveFile', handleSaveToDownloads);
 	}
@@ -1285,17 +1296,17 @@ async function handleClipObsidian(): Promise<void> {
 		}) as Property[];
 
 		const frontmatter = await generateFrontmatter(properties);
-		// const fileContent = frontmatter + noteContentField.value;
+		const fileContent = frontmatter + noteContentField.value;
 
 		// Save to Obsidian
 		const selectedVault = currentTemplate.vault || vaultDropdown.value;
 		const isDailyNote = currentTemplate.behavior === 'append-daily' || currentTemplate.behavior === 'prepend-daily';
 		const noteName = isDailyNote ? '' : noteNameField?.value || '';
 		const path = isDailyNote ? '' : pathField?.value || '';
-		// await saveToObsidian(fileContent, noteName, path, selectedVault, currentTemplate.behavior);
-		const config = await initBlinkoConfig();
-		const fileContent = '# ' + noteName + '\n\n' + noteContentField.value;
-		await saveToBlinko(fileContent, noteName, path, selectedVault, currentTemplate.behavior, config);
+		await saveToObsidian(fileContent, noteName, path, selectedVault, currentTemplate.behavior);
+		// const config = await initBlinkoConfig();
+		// const fileContent = '# ' + noteName + '\n\n' + noteContentField.value;
+		// await saveToBlinko(fileContent, noteName, path, selectedVault, currentTemplate.behavior, config);
 		const tabInfo = await getCurrentTabInfo();
 		await incrementStat('addToObsidian', selectedVault, path, tabInfo.url, tabInfo.title);
 
@@ -1309,6 +1320,70 @@ async function handleClipObsidian(): Promise<void> {
 		}
 	} catch (error) {
 		console.error('Error in handleClipObsidian:', error);
+		showError('failedToSaveFile');
+		throw error;
+	}
+}
+
+async function handleClipBlinko(): Promise<void> {
+	if (!currentTemplate) return;
+
+	const vaultDropdown = document.getElementById('vault-select') as HTMLSelectElement;
+	const noteContentField = document.getElementById('note-content-field') as HTMLTextAreaElement;
+	const noteNameField = document.getElementById('note-name-field') as HTMLInputElement;
+	const pathField = document.getElementById('path-name-field') as HTMLInputElement;
+	const interpretBtn = document.getElementById('interpret-btn') as HTMLButtonElement;
+
+	if (!vaultDropdown || !noteContentField) {
+		showError('Some required fields are missing. Please try reloading the extension.');
+		return;
+	}
+
+	try {
+		// Handle interpreter if needed
+		if (generalSettings.interpreterEnabled && interpretBtn && collectPromptVariables(currentTemplate).length > 0) {
+			if (interpretBtn.classList.contains('processing')) {
+				await waitForInterpreter(interpretBtn);
+			} else if (!interpretBtn.classList.contains('done')) {
+				interpretBtn.click();
+				await waitForInterpreter(interpretBtn);
+			}
+		}
+
+		// Gather content
+		const properties = Array.from(document.querySelectorAll('.metadata-property input')).map(input => {
+			const inputElement = input as HTMLInputElement;
+			return {
+				id: inputElement.dataset.id || Date.now().toString() + Math.random().toString(36).slice(2, 11),
+				name: inputElement.id,
+				value: inputElement.type === 'checkbox' ? inputElement.checked : inputElement.value
+			};
+		}) as Property[];
+
+		const frontmatter = await generateFrontmatterForBlinko(properties);
+		const tags = await generateTagsForBlinko(properties);
+
+		// Save to Blinko
+		const selectedVault = currentTemplate.vault || vaultDropdown.value;
+		const isDailyNote = currentTemplate.behavior === 'append-daily' || currentTemplate.behavior === 'prepend-daily';
+		const noteName = isDailyNote ? '' : noteNameField?.value || '';
+		const path = isDailyNote ? '' : pathField?.value || '';
+		const config = await initBlinkoConfig();
+		const fileContent = '# ' + noteName + '\n\n' + frontmatter + noteContentField.value + '\n\n' + tags
+		await saveToBlinko(fileContent, noteName, path, selectedVault, currentTemplate.behavior, config);
+		const tabInfo = await getCurrentTabInfo();
+		await incrementStat('addToBlinko', selectedVault, path, tabInfo.url, tabInfo.title);
+
+		if (!currentTemplate.vault) {
+			lastSelectedVault = selectedVault;
+			await setLocalStorage('lastSelectedVault', lastSelectedVault);
+		}
+
+		if (!isSidePanel) {
+			setTimeout(() => window.close(), 500);
+		}
+	} catch (error) {
+		console.error('Error in handleClipBlinko:', error);
 		showError('failedToSaveFile');
 		throw error;
 	}
@@ -1346,6 +1421,7 @@ function getActionIcon(actionType: string): string {
 		case 'copyToClipboard': return 'copy';
 		case 'saveFile': return 'file-down';
 		case 'addToObsidian': return 'pen-line';
+		case 'addToBlinko': return 'sparkles';
 		default: return 'plus';
 	}
 }

@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Zapisz w Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Zapisz w Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Kliknij enter, aby dodać sejf"
 	},

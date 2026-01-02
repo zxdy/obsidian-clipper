@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Toevoegen aan Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Toevoegen aan Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Druk op Enter om een kluis toe te voegen"
 	},

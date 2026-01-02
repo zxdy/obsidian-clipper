@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Obsidianに追加"
 	},
+	"addToBlinko": {
+		"message": "Blinkoに追加"
+	},
 	"addVaultPlaceholder": {
 		"message": "Enterキーを押して保管庫を追加"
 	},

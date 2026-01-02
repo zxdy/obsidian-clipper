@@ -20,6 +20,9 @@
 	"addToObsidian": {
 		"message": "Idagdag sa Obsidian"
 	},
+	"addToBlinko": {
+		"message": "Idagdag sa Blinko"
+	},
 	"addVaultPlaceholder": {
 		"message": "Pindutin ang Enter para magdagdag ng vault"
 	},
