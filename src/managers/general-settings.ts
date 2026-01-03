@@ -228,6 +228,7 @@ export function initializeGeneralSettings(): void {
 		initializeExportHighlightsButton();
 		initializeSaveBehaviorDropdown();
 		await initializeUsageChart();
+		await initializeBlinkoSettings();
 
 		// Initialize feedback modal close button
 		const feedbackModal = document.getElementById('feedback-modal');
@@ -512,4 +513,61 @@ function initializeSettingDropdown(
 	dropdown.addEventListener('change', () => {
 		onChange(dropdown.value);
 	});
+}
+
+/**
+ * Blinko 设置接口
+ */
+interface BlinkoSettings {
+	apiUrl?: string;
+	apiToken?: string;
+	callbackUrl?: string;
+	thoughtLengthThreshold?: number;
+}
+
+/**
+ * 初始化 Blinko 设置
+ */
+async function initializeBlinkoSettings(): Promise<void> {
+	// 从存储中加载 Blinko 设置
+	const blinkoData = await browser.storage.local.get('blinko_settings') as { blinko_settings?: BlinkoSettings };
+	const blinkoSettings = blinkoData.blinko_settings || {};
+
+	// 获取 DOM 元素
+	const apiUrlInput = document.getElementById('blinko-api-url') as HTMLInputElement;
+	const apiTokenInput = document.getElementById('blinko-api-token') as HTMLInputElement;
+	const callbackUrlInput = document.getElementById('blinko-callback-url') as HTMLInputElement;
+	const thresholdInput = document.getElementById('blinko-threshold') as HTMLInputElement;
+
+	if (!apiUrlInput || !apiTokenInput || !callbackUrlInput || !thresholdInput) {
+		console.warn('[Blinko] 无法找到 Blinko 配置输入框');
+		return;
+	}
+
+	// 填充已保存的设置
+	apiUrlInput.value = blinkoSettings.apiUrl || '';
+	apiTokenInput.value = blinkoSettings.apiToken || '';
+	callbackUrlInput.value = blinkoSettings.callbackUrl || '';
+	thresholdInput.value = blinkoSettings.thoughtLengthThreshold?.toString() || '200';
+
+	// 监听输入变化并保存
+	const saveBlinkoSettings = debounce(async () => {
+		const newSettings: BlinkoSettings = {
+			apiUrl: apiUrlInput.value.trim(),
+			apiToken: apiTokenInput.value.trim(),
+			callbackUrl: callbackUrlInput.value.trim() || undefined,
+			thoughtLengthThreshold: parseInt(thresholdInput.value, 10) || 200
+		};
+
+		await browser.storage.local.set({ blinko_settings: newSettings });
+		console.log('[Blinko] 配置已保存:', newSettings);
+	}, 500);
+
+	// 为所有输入框添加事件监听器
+	apiUrlInput.addEventListener('input', saveBlinkoSettings);
+	apiTokenInput.addEventListener('input', saveBlinkoSettings);
+	callbackUrlInput.addEventListener('input', saveBlinkoSettings);
+	thresholdInput.addEventListener('input', saveBlinkoSettings);
+
+	console.log('[Blinko] 设置初始化完成');
 }

@@ -73,22 +73,35 @@ async function example2_initConfig() {
 }
 
 // ============================================
-// 示例 3: 从存储加载配置
+// 示例 3: 从存储加载配置 (推荐方式)
 // ============================================
 
+/**
+ * 从存储加载配置
+ * 
+ * 注意: 用户在 settings.html 的 Advanced -> Blinko 部分输入的配置会自动保存到 storage
+ * 这个示例展示了如何加载这些配置来保存笔记
+ */
 async function example3_loadFromStorage() {
 	const fileContent = `---
 title: 从存储加载的笔记
 ---
 
-这是从存储中加载配置后保存的笔记。`;
+这是从存储中加载配置后保存的笔记。
+
+配置来源:
+- settings.html 的 Advanced -> Blinko 部分
+- 用户输入的 API URL、API Token 等配置会自动保存到 storage
+- 通过 loadBlinkoConfig() 加载这些配置`;
 
 	// 从本地存储加载 Blinko 配置
+	// 配置来自 settings.html 的输入框
 	const config = await loadBlinkoConfig();
 	
 	// 检查配置是否有效
 	if (!config.apiToken) {
 		console.error('❌ API Token 未配置,请先配置 Blinko');
+		console.error('请在 settings.html 的 Advanced -> Blinko 部分配置 API Token');
 		return;
 	}
 
@@ -151,15 +164,22 @@ async function example5_partialUpdate() {
 // 示例 6: 在 popup.ts 中的实际使用场景
 // ============================================
 
+/**
+ * 在 popup.ts 中的实际使用场景
+ * 
+ * 注意: 配置来自 settings.html,通过 loadBlinkoConfig() 加载
+ */
 async function example6_realWorldUsage() {
 	// 假设这是在 popup.ts 的 handleClipObsidian 函数中
 	
-	// 加载用户配置
+	// 加载用户配置 (来自 settings.html 的输入框)
 	const config = await loadBlinkoConfig();
 	
 	// 验证配置
 	if (!config.apiToken) {
 		alert('请先在设置中配置 Blinko API Token');
+		console.error('❌ API Token 未配置');
+		console.error('请在 settings.html 的 Advanced -> Blinko 部分配置');
 		return;
 	}
 	
@@ -177,6 +197,7 @@ async function example6_realWorldUsage() {
 	const fileContent = noteContentField.value;
 
 	// 保存到 Blinko
+	console.log('📤 正在保存笔记到 Blinko...');
 	const success = await saveToBlinko(
 		fileContent,
 		'', '', '', 'create',
@@ -304,3 +325,44 @@ export {
 // 在浏览器控制台中运行测试:
 // import * as examples from './blinko-examples';
 // examples.example1_useSampleConfig();
+
+
+// ============================================
+// 使用说明
+// ============================================
+
+/**
+ * 配置 Blinko (一次性操作):
+ * 
+ * 1. 打开 settings.html
+ * 2. 导航到 "Advanced" 部分
+ * 3. 找到 "Blinko" 子部分
+ * 4. 填写以下配置:
+ *    - API URL: 你的 Blinko 实例地址
+ *      例如: http://192.168.50.118:1111/api/v1/note/upsert
+ *    - API Token: 你的 API 认证令牌
+ *      例如: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *    - Callback URL (可选): 回调通知地址
+ *      例如: http://192.168.50.118:46375/notify
+ *    - Thought length threshold (可选,默认 200): 短笔记长度阈值
+ *      例如: 200
+ * 
+ * 配置会自动保存到 storage
+ * 
+ * 
+ * 使用配置保存笔记:
+ * 
+ * const config = await loadBlinkoConfig();
+ * const success = await saveToBlinko(content, '', '', '', 'create', config);
+ * 
+ * 
+ * 配置存储位置:
+ * 
+ * browser.storage.local 中的 'blinko_settings' 字段
+ * 
+ * 
+ * 推荐使用示例:
+ * 
+ * example3_loadFromStorage() - 从 settings.html 加载配置并保存
+ * example6_realWorldUsage() - 在 popup 中的实际使用场景
+ */

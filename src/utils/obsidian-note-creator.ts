@@ -256,18 +256,26 @@ export async function loadBlinkoConfig(): Promise<BlinkoConfig> {
 	
 	// 默认配置
 	const defaultConfig: BlinkoConfig = {
-		apiUrl: 'http://192.168.50.118:1111/api/v1/note/upsert',
-		apiToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3VwZXJhZG1pbiIsIm5hbWUiOiJBcmlvIiwic3ViIjoiMSIsImV4cCI6NDkwMzQ3ODM5OCwiaWF0IjoxNzQ5ODc4Mzk4fQ.njSNqRTlfrdKZNUJdo-8XfJ7fgv0mrdo5upQp2joO-w',
-		callbackUrl: 'http://192.168.50.118:46375/8euU4SHs6fYna5A54wJoL3',
+		apiUrl: 'http://host:port/api/v1/note/upsert',
+		apiToken: 'apiToken',
+		callbackUrl: 'http://xxx',
 		thoughtLengthThreshold: 200
 	};
 	
-	// 合并用户配置
+	// 合并用户配置 (优先使用存储中的配置,如果为空则使用默认值)
 	return {
-		apiUrl: blinkoSettings.apiUrl || defaultConfig.apiUrl,
-		apiToken: blinkoSettings.apiToken || defaultConfig.apiToken,
-		callbackUrl: blinkoSettings.callbackUrl || defaultConfig.callbackUrl,
-		thoughtLengthThreshold: blinkoSettings.thoughtLengthThreshold || defaultConfig.thoughtLengthThreshold
+		apiUrl: blinkoSettings.apiUrl && blinkoSettings.apiUrl.trim() !== '' 
+			? blinkoSettings.apiUrl.trim() 
+			: defaultConfig.apiUrl,
+		apiToken: blinkoSettings.apiToken && blinkoSettings.apiToken.trim() !== '' 
+			? blinkoSettings.apiToken.trim() 
+			: defaultConfig.apiToken,
+		callbackUrl: blinkoSettings.callbackUrl && blinkoSettings.callbackUrl.trim() !== '' 
+			? blinkoSettings.callbackUrl.trim() 
+			: undefined,
+		thoughtLengthThreshold: blinkoSettings.thoughtLengthThreshold !== undefined && blinkoSettings.thoughtLengthThreshold > 0
+			? blinkoSettings.thoughtLengthThreshold
+			: defaultConfig.thoughtLengthThreshold
 	};
 }
 

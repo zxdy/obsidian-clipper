@@ -204,6 +204,53 @@
 										</div>
 									</div>
 								</div>
+								<div>
+									<h3 data-i18n="blinkoSettings">Blinko</h3>
+									<div class="setting-item">
+										<div class="setting-item-info">
+											<label for="blinko-api-url" data-i18n="blinkoApiUrl">API URL</label>
+											<div class="setting-item-description" data-i18n="blinkoApiUrlDescription">
+												The API endpoint URL for Blinko service.
+											</div>
+										</div>
+										<div class="setting-item-control">
+											<input type="text" id="blinko-api-url" placeholder="http://your-blinko-instance.com/api/v1/note/upsert" spellcheck="false" />
+										</div>
+									</div>
+									<div class="setting-item">
+										<div class="setting-item-info">
+											<label for="blinko-api-token" data-i18n="blinkoApiToken">API Token</label>
+											<div class="setting-item-description" data-i18n="blinkoApiTokenDescription">
+												Your authentication token for Blinko API.
+											</div>
+										</div>
+										<div class="setting-item-control">
+											<input type="password" id="blinko-api-token" placeholder="Enter your API token" spellcheck="false" />
+										</div>
+									</div>
+									<div class="setting-item">
+										<div class="setting-item-info">
+											<label for="blinko-callback-url" data-i18n="blinkoCallbackUrl">Callback URL</label>
+											<div class="setting-item-description" data-i18n="blinkoCallbackUrlDescription">
+												Optional callback notification URL for save status updates.
+											</div>
+										</div>
+										<div class="setting-item-control">
+											<input type="text" id="blinko-callback-url" placeholder="http://your-callback-service.com/notify (optional)" spellcheck="false" />
+										</div>
+									</div>
+									<div class="setting-item">
+										<div class="setting-item-info">
+											<label for="blinko-threshold" data-i18n="blinkoThoughtThreshold">Thought length threshold</label>
+											<div class="setting-item-description" data-i18n="">
+												Character count threshold for distinguishing between short notes (thoughts) and long notes. Default is 200.
+											</div>
+										</div>
+										<div class="setting-item-control">
+											<input type="number" id="blinko-threshold" placeholder="200" min="0" />
+										</div>
+									</div>
+								</div>
 								<div class="setting-item mod-horizontal">
 									<div class="setting-item-info">
 										<label for="reset-default-template-btn" data-i18n="resetDefaultTemplate">Reset default template</label>
