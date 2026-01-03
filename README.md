@@ -1,12 +1,15 @@
 # Obsidian Web Clipper - Blinko 剪裁功能使用文档
 
 * 剪裁功能截图
+
 ![alt text](docs/image.png)
 
 * 效果截图
+
 ![alt text](docs/image-3.png)
 
 * 消息通知截图
+
 ![alt text](docs/image-4.png)
 
 ## 目录
@@ -126,15 +129,15 @@
    - 可以选择不同的模板进行格式化
 
 4. **保存到 Blinko**
-   - 确认内容无误后,点击 **Clip** 按钮
+   - 确认内容无误后,点击 **添加到Blinko** 按钮
    - 笔记会自动保存到 Blinko
 
 ### 笔记类型自动识别
 
 Web Clipper 会根据笔记内容长度自动区分:
 
-- **闪念 (Thought, type=0)**: 内容长度小于阈值(默认 200 字符)
-- **笔记 (Note, type=1)**: 内容长度大于等于阈值
+- **闪念**: 内容长度小于阈值(默认 200 字符)
+- **笔记**: 内容长度大于等于阈值
 
 你可以在设置中调整 **Thought length threshold** 来改变识别阈值。
 
@@ -270,8 +273,7 @@ GET http://your-callback.com/笔记保存失败
 ## 相关资源
 
 - **[官方文档](https://help.obsidian.md/web-clipper)** - 完整的 Web Clipper 使用文档
-- **[故障排查](https://help.obsidian.md/web-clipper/troubleshoot)** - 常见问题解决方案
-- **[Blinko 项目](https://github.com/your-blinko-repo)** - Blinko 项目主页
+- **[Blinko项目](https://blinko.space)** - Blinko 项目主页
 
 
 ---
