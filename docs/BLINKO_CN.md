@@ -1,13 +1,13 @@
 # Obsidian Web Clipper - Blinko 剪裁功能使用文档
 
 * 剪裁功能截图
-![alt text](docs/image.png)
+![alt text](image.png)
 
 * 效果截图
-![alt text](docs/image-3.png)
+![alt text](image-3.png)
 
 * 消息通知截图
-![alt text](docs/image-4.png)
+![alt text](image-4.png)
 
 ## 目录
 
@@ -79,7 +79,7 @@
 3. 或者你可以在剪裁时通过主按钮旁的菜单选择不同的保存方式
 
 ### 第三步: 配置 Blinko API
-![alt text](docs/image-1.png)
+![alt text](image-1.png)
 1. 在 **General** 页面向下滚动到 **Advanced** (高级) 部分
 2. 找到 **Blinko** 子部分
 3. 填写以下配置:
@@ -92,7 +92,7 @@
 | **Thought length threshold** (可选) | 区分短笔记和长笔记的字符数阈值 | `200` (默认值) |
 
 ### 第四步: 配置模版
-![alt text](docs/image-2.png)
+![alt text](image-2.png)
 1. 从 **Default** 模版中复制一个模版到 **Blinko** 模版中
 2. 修改模版内容,删除 title 属性，修改tags内容，添加 "#剪裁" 标签
 
