@@ -256,17 +256,30 @@ export async function loadBlinkoConfig(): Promise<BlinkoConfig> {
 	
 	// 默认配置
 	const defaultConfig: BlinkoConfig = {
-		apiUrl: 'http://host:port/api/v1/note/upsert',
+		apiUrl: 'http://192.168.50.118:1111',
 		apiToken: 'apiToken',
 		callbackUrl: 'http://xxx',
 		thoughtLengthThreshold: 200
 	};
 	
+	// 获取用户配置的 base URL
+	const baseUrl = blinkoSettings.apiUrl && blinkoSettings.apiUrl.trim() !== '' 
+		? blinkoSettings.apiUrl.trim() 
+		: defaultConfig.apiUrl;
+	
+	// 自动拼接 API 路径
+	// 如果用户输入的 URL 不包含 '/api/v1/note/upsert',则自动拼接
+	let apiUrl = baseUrl;
+	if (!apiUrl.includes('/api/v1/note/upsert')) {
+		// 移除末尾的斜杠
+		apiUrl = baseUrl.replace(/\/+$/, '');
+		// 拼接 API 路径
+		apiUrl = `${apiUrl}/api/v1/note/upsert`;
+	}
+	
 	// 合并用户配置 (优先使用存储中的配置,如果为空则使用默认值)
 	return {
-		apiUrl: blinkoSettings.apiUrl && blinkoSettings.apiUrl.trim() !== '' 
-			? blinkoSettings.apiUrl.trim() 
-			: defaultConfig.apiUrl,
+		apiUrl: apiUrl,
 		apiToken: blinkoSettings.apiToken && blinkoSettings.apiToken.trim() !== '' 
 			? blinkoSettings.apiToken.trim() 
 			: defaultConfig.apiToken,
