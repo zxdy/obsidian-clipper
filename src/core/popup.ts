@@ -1303,10 +1303,8 @@ async function handleClipObsidian(): Promise<void> {
 		const isDailyNote = currentTemplate.behavior === 'append-daily' || currentTemplate.behavior === 'prepend-daily';
 		const noteName = isDailyNote ? '' : noteNameField?.value || '';
 		const path = isDailyNote ? '' : pathField?.value || '';
+
 		await saveToObsidian(fileContent, noteName, path, selectedVault, currentTemplate.behavior);
-		// const config = await initBlinkoConfig();
-		// const fileContent = '# ' + noteName + '\n\n' + noteContentField.value;
-		// await saveToBlinko(fileContent, noteName, path, selectedVault, currentTemplate.behavior, config);
 		const tabInfo = await getCurrentTabInfo();
 		await incrementStat('addToObsidian', selectedVault, path, tabInfo.url, tabInfo.title);
 
@@ -1421,7 +1419,7 @@ function getActionIcon(actionType: string): string {
 		case 'copyToClipboard': return 'copy';
 		case 'saveFile': return 'file-down';
 		case 'addToObsidian': return 'pen-line';
-		case 'addToBlinko': return 'sparkles';
+		case 'addToBlinko': return 'pen-line';
 		default: return 'plus';
 	}
 }
