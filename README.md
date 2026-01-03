@@ -43,6 +43,15 @@
 
 ### 本地安装扩展
 
+#### release 版本安装
+1. 下载安装文件: [release](https://github.com/zxdy/obsidian-clipper/releases/tag/v1.0.0-blinko)
+2. 解压文件夹
+3. 加载到浏览器:
+	- **Chrome/Brave/Edge**: 打开 `chrome://extensions`,启用开发者模式,加载解压目录
+
+
+#### 源代码安装
+
 如果你想在本地开发或测试 Web Clipper:
 
 1. 克隆代码仓库:
