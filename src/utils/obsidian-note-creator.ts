@@ -186,13 +186,13 @@ export async function generateTagsForBlinko(properties: Property[]): Promise<str
 }
 
 function openObsidianUrl(url: string): void {
-	// browser.runtime.sendMessage({
-	// 	action: "openObsidianUrl",
-	// 	url: url
-	// }).catch((error) => {
-	// 	console.error('Error opening Obsidian URL via background script:', error);
-	// 	window.open(url, '_blank');
-	// });
+	browser.runtime.sendMessage({
+		action: "openObsidianUrl",
+		url: url
+	}).catch((error) => {
+		console.error('Error opening Obsidian URL via background script:', error);
+		window.open(url, '_blank');
+	});
 }
 
 async function tryClipboardWrite(fileContent: string, obsidianUrl: string): Promise<void> {
